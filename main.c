@@ -18,7 +18,7 @@ int main(){
         *strchr(line, '\n') = '\0';
     }
     //split by semicolons if there multiple commands in a line
-    while (strchr(line, ';') != NULL){
+    while (strchr(lineptr, ';') != NULL){
         cmd = strsep(&lineptr, ";");
         parse_args(cmd,args);
         //test printing
