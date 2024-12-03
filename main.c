@@ -5,6 +5,7 @@
 #include "parse.h"
 
 int main(){
+    //read in input
     printf("Enter a command:");
     int bufferSize = 200;
     char * args[bufferSize];
@@ -12,14 +13,27 @@ int main(){
     char * lineptr = line;
     char * cmd;
     fgets(line, bufferSize, stdin);
-    // while (strchr(line, ';') != NULL){
-    //     cmd = strsep(&line, ';');
-    //     parse_args(line,args);
-    //     execvp(args[0], args);
-    // }
+    //get rid of newline character at end of line
+    if (strchr(line, '\n') != NULL){
+        *strchr(line, '\n') = '\0';
+    }
+    //split by semicolons if there multiple commands in a line
+    while (strchr(line, ';') != NULL){
+        cmd = strsep(&lineptr, ";");
+        parse_args(cmd,args);
+        //test printing
+        int i = 0;
+        while (args[i] != NULL){
+            printf("\"%s\"\n", args[i]);
+            i++;
+        }
+    }
     cmd = strsep(&lineptr, ";");
     parse_args(cmd,args);
-    printf("%s\n", args[0]);
-    printf("%s\n", args[1]);
-    execvp(args[0], args);
+    //test printing
+    int i = 0;
+    while (args[i] != NULL){
+        printf("\"%s\"\n", args[i]);
+        i++;
+    }
 }
