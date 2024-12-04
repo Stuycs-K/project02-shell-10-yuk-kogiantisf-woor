@@ -27,6 +27,7 @@ int main(){
             printf("\"%s\"\n", args[i]);
             i++;
         }
+        printf("\n");
     }
     cmd = strsep(&lineptr, ";");
     parse_args(cmd,args);
