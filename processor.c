@@ -33,7 +33,7 @@ int assign_command(char * str){
   else if (in_list(str,pipe) == 0){ //if str is in redirects, it returns 0
     return 2;
   }
-  else if (in_list(str,colon) == 0){ //if str is in redirects, it returns 0
+  else if (in_list(str,pipe) == 0){ //if str is in redirects, it returns 0
     return 3;
   }
   else if (in_list(str,special) == 0){ //if str is in redirects, it returns 0

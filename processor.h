@@ -2,11 +2,12 @@
 #define PROCESSOR_H
 
 /* types of commands
- * 0 - executable
- * 1 - redirect to stdin
- * 2 - redirect to stdout
- * 3 - pipe
- * 4 - cd
+ * 0  - executable
+ * 1  - redirect to stdin
+ * 2  - redirect to stdout
+ * 3  - pipe
+ * 4  - cd or exit
+ * -1 - if not found
  */
 
 struct command {
@@ -31,4 +32,4 @@ struct command* get_commands(char** str);
 struct command_stack init_stack(size);
 
 
-#endif 
+#endif
