@@ -16,13 +16,19 @@ struct command {
 
 struct command_stack {
 	int sp;
-	struct command* stack;
+	int stack_size;
+	struct command* data;
 };
 
-void push_command(struct command);
-void pop_command(struct command);
+struct command create_command(int type, char* str);
+
+int push_command(struct command_stack* stack, struct command cmd);
+
+struct command* pop_command(struct command_stack* stack);
 
 struct command* get_commands(char** str);
+
+struct command_stack init_stack(size);
 
 
 #endif 
