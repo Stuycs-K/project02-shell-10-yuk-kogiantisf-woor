@@ -85,10 +85,6 @@ struct command* pop_command(struct command_stack* stack) {
 	return out;
 }
 
-void print_command(struct command* command) {
-	printf("Type: %d | Data: %s\n", command->type, command->data);
-}
-
 struct command create_command(int type, char* str) {
 	struct command out;
 	out.type = type;
@@ -104,19 +100,28 @@ struct command_stack init_stack(int size) {
 	return out;
 }
 
+struct command_stack array_to_stack(struct command* cmds, int n) {
+	struct command_stack out = init_stack(n*4);
+	for (int i=0; i<n; i++) {
+		push_command(&out, cmds[i]);
+	}
+	return out;
+}
+
+void print_command(struct command cmd) {
+	printf("[%d]: %s\n", cmd.type, cmd.data);
+}
+
+void print_stack(struct command_stack stk) {
+	printf("SP ->\t");
+	print_command(stk.data[stk.sp]);
+	for (int i=stk.sp-1; i>=0; i--) {
+		printf("\t");
+		print_command(stk.data[i]);
+	}
+}
+
 int main(void) {
 	struct command_stack stack = init_stack(10);
-	push_command(&stack, create_command(1, "abc"));
-	push_command(&stack, create_command(2, "a,monmgus"));
-	push_command(&stack, create_command(3, "addbc"));
-	push_command(&stack, create_command(1, "fffabc"));
-
-
-	print_command(pop_command(&stack));
-	print_command(pop_command(&stack));
-
-	push_command(&stack, create_command(1, "AAA"));
-	print_command(pop_command(&stack));
-	print_command(pop_command(&stack));
-	print_command(pop_command(&stack));
 }
+
