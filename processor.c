@@ -44,7 +44,7 @@ int assign_command(char * str){
   }
   return -1;
 }
-
+/*
 struct command* get_commands(char** str){
   int i;
   i = 0;
@@ -60,6 +60,7 @@ struct command* get_commands(char** str){
   }
   return command_list;
 }
+*/
 int push_command(struct command_stack* stack, struct command cmd) {
 	//Check if stack is full
 	if (stack->sp + 1 >= stack->stack_size) {
@@ -68,7 +69,16 @@ int push_command(struct command_stack* stack, struct command cmd) {
 	stack->sp++;
 	int sp = stack->sp;
 	stack->data[sp].type = cmd.type;
-	strcpy(stack->data[sp].data, cmd.data);
+	for (int i=0; i<COMMAND_BUFF_SIZE; i++) {
+		if (cmd.data[i] == NULL) {
+			stack->data[sp].data[i] = NULL;
+			break;
+		}
+		else {
+			stack->data[sp].data[i] = (char*)malloc(sizeof(char)*strlen(cmd.data[i]));
+			strcpy(stack->data[sp].data[i], cmd.data[i]);
+		}
+	}
 	return 1;
 }
 
@@ -80,22 +90,54 @@ struct command* pop_command(struct command_stack* stack) {
 	int sp = stack->sp;
 	struct command* out = (struct command*)malloc(sizeof(struct command));
 	out->type = stack->data[sp].type;
-	strcpy(out->data, stack->data[sp].data);
+	for (int i=0; i<COMMAND_BUFF_SIZE; i++) {
+		if (stack->data[sp].data[i] == NULL) {
+			out->data[i] = NULL;
+			break;
+		}
+		else {
+			out->data[i] = (char*)malloc(sizeof(char)*strlen(stack->data[sp].data[i]));
+			strcpy(out->data[i], stack->data[sp].data[i]);
+		}
+	}
 	stack->sp--;
+	//Keep things memory safe
+	for (int i=0; (stack->data[sp].data[i] != NULL) && (i<COMMAND_BUFF_SIZE); i++) {
+		free(stack->data[sp].data[i]);
+	}
 	return out;
 }
 
-struct command create_command(int type, char* str) {
+struct command create_command(int type, char** str) {
 	struct command out;
 	out.type = type;
-	strcpy(out.data, str);
+	for (int i=0; i<COMMAND_BUFF_SIZE; i++) {
+		if (str[i] == NULL) {
+			out.data[i] = NULL;
+		}
+		else {
+			out.data[i] = (char*)malloc(sizeof(char)*strlen(str[i]));
+			strcpy(out.data[i], str[i]);
+		}
+	}
+	return out;
+}
+
+struct command create_command_string(int type, char* str) {
+	struct command out;
+	char* str_m = (char*)malloc(sizeof(char)*strlen(str));
+	strcpy(str_m, str);
+	char** data = (char**)malloc(sizeof(char*)*COMMAND_BUFF_SIZE);
+	for (int i=0; (i<COMMAND_BUFF_SIZE) && (data[i] = strsep(&str_m, " ")); i++);
+	out = create_command(type, data);
+	free(str_m);
 	return out;
 }
 
 struct command_stack init_stack(int size) {
 	struct command_stack out;
 	out.sp = 0;
-	out.stack_size = size;
+	out.stack_size = size+1;
 	out.data = (struct command*)malloc(sizeof(struct command)*size);
 	return out;
 }
@@ -109,7 +151,11 @@ struct command_stack array_to_stack(struct command* cmds, int n) {
 }
 
 void print_command(struct command cmd) {
-	printf("[%d]: %s\n", cmd.type, cmd.data);
+	printf("[%d]: ", cmd.type);
+	for (int i=0; cmd.data[i] != NULL; i++) {
+		printf("%s ", cmd.data[i]);
+	}
+	printf("\n");
 }
 
 void print_stack(struct command_stack stk) {
@@ -121,7 +167,23 @@ void print_stack(struct command_stack stk) {
 	}
 }
 
+void free_stack(struct command_stack* stack) {
+	//Free other elements on stack
+	while (pop_command(stack));
+}
+
 int main(void) {
-	struct command_stack stack = init_stack(10);
+	struct command_stack c_stack = init_stack(10);
+	struct command_stack* stack = &c_stack;
+	for (int i=0; i<11; i++) {
+		printf("%d\n", push_command(stack, create_command_string(1, "goon gooning gooner")));
+	}
+	print_stack(*stack);
+	printf("\n");
+	struct command* goon;
+	while (goon = pop_command(stack)) {
+		print_command(*goon);
+	}
+	free_stack(stack);
 }
 
