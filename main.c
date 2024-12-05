@@ -8,10 +8,11 @@ int main(){
     //main loop
     while (1){
         int bufferSize = 200;
-        char * args[bufferSize];
         char line[bufferSize * 10];
-        char * lineptr = line;
-        char * cmd;
+        char ** parsedcmd[bufferSize];
+        for (int i = 0; i < bufferSize; i++){
+            parsedcmd[i] = malloc(bufferSize * sizeof(char *));
+        }
         //print current path prompt
         char path[bufferSize];
         getcwd(path, bufferSize);
@@ -23,24 +24,49 @@ int main(){
             *strchr(line, '\n') = '\0';
         }
         //split by semicolons if there multiple commands in a line
-        while (strchr(lineptr, ';') != NULL){
-            cmd = strsep(&lineptr, ";");
-            parse_args(cmd,args);
-            //test printing
+        char * lineptr = line;
+        char * cmdptr;
+        int semicolonsPresent = 1;
+        while (semicolonsPresent == 1){
+            if (strchr(lineptr, ';') == NULL){
+                semicolonsPresent = 0;
+            }
+            cmdptr = strsep(&lineptr, ";");
+            //split by redirects
+            char * cmd = cmdptr;
+            int redirectsPresent = 1;
             int i = 0;
-            while (args[i] != NULL){
-                printf("\"%s\"\n", args[i]);
+            while (redirectsPresent == 1){
+                if (strpbrk(cmdptr, "<>|") == NULL){
+                    redirectsPresent = 0;
+                }
+                else{
+                    cmdptr = strpbrk(cmdptr, "<>|");
+                    *(cmdptr - 1) = '\0';
+                }
+                parse_args(cmd,parsedcmd[i]);
+                cmd = cmdptr;
+                cmdptr++;
                 i++;
             }
-            printf("\n");
-        }
-        cmd = strsep(&lineptr, ";");
-        parse_args(cmd,args);
-        //test printing
-        int i = 0;
-        while (args[i] != NULL){
-            printf("\"%s\"\n", args[i]);
-            i++;
+            //set final array to NULL
+            parsedcmd[i] = NULL;
+            //test printing
+            i = 0;
+            while (parsedcmd[i] != NULL){
+                int j = 0;
+                while (parsedcmd[i][j] != NULL){
+                    printf("\"%s\"\n", parsedcmd[i][j]);
+                    j++;
+                }
+                printf("\n");
+                i++;
+            }
+            printf("new command\n\n");
         }
     }
+    /*test commands
+    echo 1;echo 2;echo 3;echo 4;echo 5;echo 6
+    a < c.txt | b > d.txt;a < c.txt | b > d.txt;a < c.txt | b > d.txt
+    */
 }
