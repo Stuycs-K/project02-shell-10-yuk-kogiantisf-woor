@@ -61,6 +61,34 @@ struct command* get_commands(char** str){
   return command_list;
 }
 */
+
+struct command* get_order(struct command* arr, int size){
+  int i = 0;
+  struct command temp;
+  while (i < size){ // if "< b.txt"
+    if (arr[i].type == 1){
+      temp = arr[i];
+      arr[i] = arr[i-1];
+      arr[i-1] = temp;
+    }
+    printf("\n%s",arr[i].data[0]);
+    i++;
+  }
+  return arr;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 int push_command(struct command_stack* stack, struct command cmd) {
 	//Check if stack is full
 	if (stack->sp + 1 >= stack->stack_size) {
@@ -173,17 +201,45 @@ void free_stack(struct command_stack* stack) {
 }
 
 int main(void) {
-	struct command_stack c_stack = init_stack(10);
-	struct command_stack* stack = &c_stack;
-	for (int i=0; i<11; i++) {
-		printf("%d\n", push_command(stack, create_command_string(1, "goon gooning gooner")));
-	}
-	print_stack(*stack);
-	printf("\n");
-	struct command* goon;
-	while (goon = pop_command(stack)) {
-		print_command(*goon);
-	}
-	free_stack(stack);
-}
+	// struct command_stack c_stack = init_stack(10);
+	// struct command_stack* stack = &c_stack;
+	// for (int i=0; i<11; i++) {
+	// 	printf("%d\n", push_command(stack, create_command_string(1, "goon gooning gooner")));
+	// }
+	// print_stack(*stack);
+	// printf("\n");
+	// struct command* goon;
+	// while (goon = pop_command(stack)) {
+	// 	print_command(*goon);
+	// }
+	// free_stack(stack);
 
+  struct command s1,s2,s3,s4,s5;
+  char ** str;
+  *str = "a";
+  s1 = create_command(0,str);
+
+  *str = "< a.txt";
+  s2 = create_command(1,str)
+  //
+  // s2.type = 1;
+  // char *dat [10];
+  // strcpy(dat[0],"< a.txt");
+  // s2.data = dat;
+  // strcpy(s2.data,"< a.txt");
+
+  // s3.type = 3;
+  // strcpy(s3.data,"|");
+  //
+  // s4.type = 0;
+  // strcpy(s4.data,"b");
+  //
+  // s5.type = 1;
+  // strcpy(s5.data,"> b.txt");
+
+  struct command* arr;
+  arr[0] = s1;
+  arr = get_order(arr,2);
+
+  return 0;
+}
