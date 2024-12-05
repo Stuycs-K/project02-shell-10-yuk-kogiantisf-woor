@@ -58,6 +58,7 @@ struct command_stack init_stack(int size);
 struct command_stack array_to_stack(struct command* cmds, int n);
 
 void print_command(struct command cmd);
+void print_stack(struct command_stack stack);
 
 //Free memory!
 void free_stack(struct command_stack* stack);

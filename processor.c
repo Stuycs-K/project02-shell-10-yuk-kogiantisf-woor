@@ -172,6 +172,7 @@ void free_stack(struct command_stack* stack) {
 	while (pop_command(stack));
 }
 
+/*
 int main(void) {
 	struct command_stack c_stack = init_stack(10);
 	struct command_stack* stack = &c_stack;
@@ -186,4 +187,4 @@ int main(void) {
 	}
 	free_stack(stack);
 }
-
+*/
