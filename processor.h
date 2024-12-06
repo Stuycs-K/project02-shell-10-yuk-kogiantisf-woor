@@ -4,23 +4,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* types of commands
- * 0  - executable
- * 1  - redirect to stdin
- * 2  - redirect to stdout
- * 3  - pipe
- * 4  - cd
- * 5  - exit
- * -1 - error (if not found)
- */
 
 #define CMD_EXEC 0
 #define CMD_REDIN 1
 #define CMD_REDOUT 2
-#define CMD_PIPE 3
-#define CMD_CD 4
-#define CMD_EXIT 5
-#define CMD_ERR 6
+#define CMD_CD 3
+#define CMD_EXIT 4
+#define CMD_ERR 5
 
 #define COMMAND_BUFF_SIZE 64
 

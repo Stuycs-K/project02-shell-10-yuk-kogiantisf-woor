@@ -5,7 +5,7 @@
 #include <sys/wait.h>
 #include "processor.h"
 
-int execute_command(struct command cmd, int in, int out) {
+int execute_command(struct command cmd, struct command_stack* cmd_stack, int in, int out) {
 	switch(cmd.type) {
 		case CMD_EXEC:
 			pid_t p = fork();
@@ -27,14 +27,13 @@ int execute_command(struct command cmd, int in, int out) {
 			int new_out = open(cmd.data[0], O_WRONLY | O_CREAT, 0644);
 			dup2(new_out, STDOUT_FILENO);
 			break;
-		case CMD_PIPE:
-			dup2(out, STDIN_FILENO);
-			dup2(in, STDOUT_FILENO);
-			break;
 		case CMD_CD:
 			chdir(cmd.data[0]);
 			break;
 		case CMD_EXIT:
+			free_stack(cmd_stack);
+			dup2(out, STDOUT_FILENO);
+			dup2(in, STDIN_FILENO);
 			exit(0);
 			break;
 		case CMD_ERR:
@@ -53,7 +52,7 @@ int execute_command_stack(struct command_stack* cmd_stack) {
 	int in = dup(STDIN_FILENO);
 	int out = dup(STDOUT_FILENO);
 	while (cmd = pop_command(cmd_stack)) {
-		execute_command(*cmd, in, out);
+		execute_command(*cmd, cmd_stack, in, out);
 	}
 	return 1;
 }
