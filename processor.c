@@ -61,6 +61,34 @@ struct command* get_commands(char** str){
   return command_list;
 }
 */
+
+struct command* get_order(struct command* arr, int size){
+  int i = 0;
+  struct command temp;
+  while (i < size){ // if "< b.txt"
+    if (arr[i].type == 1){
+      temp = arr[i];
+      arr[i] = arr[i-1];
+      arr[i-1] = temp;
+    }
+    printf("\n%s",arr[i].data[0]);
+    i++;
+  }
+  return arr;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 int push_command(struct command_stack* stack, struct command cmd) {
 	//Check if stack is full
 	if (stack->sp + 1 >= stack->stack_size) {
@@ -172,19 +200,3 @@ void free_stack(struct command_stack* stack) {
 	while (pop_command(stack));
 }
 
-/*
-int main(void) {
-	struct command_stack c_stack = init_stack(10);
-	struct command_stack* stack = &c_stack;
-	for (int i=0; i<11; i++) {
-		printf("%d\n", push_command(stack, create_command_string(1, "goon gooning gooner")));
-	}
-	print_stack(*stack);
-	printf("\n");
-	struct command* goon;
-	while (goon = pop_command(stack)) {
-		print_command(*goon);
-	}
-	free_stack(stack);
-}
-*/
