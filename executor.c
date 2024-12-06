@@ -19,7 +19,7 @@ int execute_command(struct command cmd, int in, int out) {
 			dup2(in, STDIN_FILENO);
 			break;
 		case CMD_REDIN:
-			int new_in = open(cmd.data[0], O_WRONLY);
+			int new_in = open(cmd.data[0], O_RDONLY);
 			dup2(new_in, STDIN_FILENO);
 			break;
 		case CMD_REDOUT:
@@ -28,10 +28,11 @@ int execute_command(struct command cmd, int in, int out) {
 			dup2(new_out, STDOUT_FILENO);
 			break;
 		case CMD_PIPE:
-			dup2(STDIN_FILENO, out);
-			dup2(STDOUT_FILENO, in);
+			dup2(out, STDIN_FILENO);
+			dup2(in, STDOUT_FILENO);
 			break;
 		case CMD_CD:
+			chdir(cmd.data[0]);
 			break;
 		case CMD_EXIT:
 			exit(0);
@@ -40,6 +41,7 @@ int execute_command(struct command cmd, int in, int out) {
 			return 0;
 			break;
 		default:
+			fprintf(stderr, "Undefined command!\n");
 			return 0;
 			break;
 	}
