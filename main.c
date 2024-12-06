@@ -35,6 +35,7 @@ int main(){
             //split by redirects
             char * cmd = cmdptr;
             int redirectsPresent = 1;
+            int pipe = 0;
             int i = 0;
             while (redirectsPresent == 1){
                 if (strpbrk(cmdptr, "<>|") == NULL){
@@ -43,10 +44,18 @@ int main(){
                 else{
                     cmdptr = strpbrk(cmdptr, "<>|");
                     *(cmdptr - 1) = '\0';
+                    if (*cmdptr == '|'){
+                        pipe = 1;
+                        *(cmdptr + 1) = '\0';
+                    }
                 }
                 parse_args(cmd,parsedcmd[i]);
                 cmd = cmdptr;
                 cmdptr++;
+                if (pipe == 1){
+                    pipe = 0;
+                    cmdptr++;
+                }
                 i++;
             }
             //set final array to NULL

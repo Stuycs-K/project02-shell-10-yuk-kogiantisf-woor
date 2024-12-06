@@ -11,6 +11,7 @@ void parse_args( char * line, char ** arg_ary ){
         // if (strchr(line, ' ') == NULL){
         //     spacesPresent = 0;
         // }
+        // printf("%d\n", *arg_ary[i]);
         arg_ary[i] = strsep(&line, " ");
         i++;
     }
