@@ -3,8 +3,9 @@
 #include <string.h>
 #include "processor.h"
 
-int assign_and_push_commands(struct command_stack* stack, char*** str) {
-	int pipe_active = 0
+int assign_and_push_commands(struct command_stack* stack, char*** str, int n) {
+	for (int i=n; str[
+	int pipe_active = 0;
 	for (int i=0; str[i] != NULL; i++) {
 		if (strcmp(str[i][0], "<") == 0) {
 			push_command(stack, create_command(CMD_REDIN, str[i]));
