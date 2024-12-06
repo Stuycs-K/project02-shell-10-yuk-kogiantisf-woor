@@ -78,6 +78,7 @@ int main(){
     echo 1;echo 2;echo 3;echo 4;echo 5;echo 6
     a < c.txt | b > d.txt;a < c.txt | b > d.txt;a < c.txt | b > d.txt
     a < c.txt | b > d.txt;echo 3
+    //this one doesnt work for some reason
     a < c.txt | ls -l -a > d.txt;echo 1;a < c.txt | b > d.txt
     */
 }

@@ -18,5 +18,3 @@ void parse_args( char * line, char ** arg_ary ){
     arg_ary[i] = line;
     arg_ary[i+1] = NULL;
 }
-
-//a < c.txt | ls -l -a > d.txt;echo 1;a < c.txt | b > d.txt
