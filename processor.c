@@ -3,91 +3,31 @@
 #include <string.h>
 #include "processor.h"
 
-int in_list(char * s, char**ls){
-  int i = 0;
-  while (*(ls+i) != NULL){
-    if (strcmp(s,*(ls+i)) == 0){
-      return 0;
-    }
-    i += 1;
-  }
-  return 1;
+int assign_and_push_commands(struct command_stack* stack, char*** str) {
+	int pipe_active = 0
+	for (int i=0; str[i] != NULL; i++) {
+		if (strcmp(str[i][0], "<") == 0) {
+			push_command(stack, create_command(CMD_REDIN, str[i]));
+			continue;
+		}
+		if (strcmp(str[i][0], ">") == 0) {
+			push_command(stack, create_command(CMD_REDOUT, str[i]));
+			continue;
+		}
+		if (strcmp(str[i][0], "|") == 0) {
+			push_command(stack, create_command(CMD_REDOUT, CMD_TEMPFILE));
+			pipe_active = 1;
+			continue;
+		}
+		if (strcmp(str[i][0], "cd") == 0) {			
+			push_command(stack, create_command(CMD_CD, str[i]));
+			continue;
+		}
+		push_command(stack, create_command(CMD_EXEC, str[i]));
+
+	}
+
 }
-
-// str is the first element of ary, which  is a list of strings in a command: ["ls",-a -l"]
-// str should be null terminated
-// 0 is regular commands
-// 1 is redirects
-// 2 is pipe
-// 3 is colon
-// 4 is special "cd" or "exit"
-int assign_command(char * str){
-  char* redirects[] = {">","<"};
-  char* pipe[] = {"|"};
-  char* colon[] = {";"};
-  char* special[] = {"cd","exit"};
-  int found = 0; //0 means not founds
-  if (in_list(str,redirects) == 0){ //if str is in redirects, it returns 0
-    return 1;
-  }
-  else if (in_list(str,pipe) == 0){ //if str is in redirects, it returns 0
-    return 2;
-  }
-  else if (in_list(str,pipe) == 0){ //if str is in redirects, it returns 0
-    return 3;
-  }
-  else if (in_list(str,special) == 0){ //if str is in redirects, it returns 0
-    return 4;
-  }
-  else{
-    return 0;
-  }
-  return -1;
-}
-/*
-struct command* get_commands(char** str){
-  int i;
-  i = 0;
-  int t;
-  struct command* command_list = (struct command*) malloc(sizeof(struct command)*100);
-  struct command temp;
-  char * s = *(str);
-  while (s != NULL){
-    (command_list+i)->type = assign_command(s);
-    strcpy((command_list+i)->data,s);
-    i += 1;
-    s = *(str+i);
-  }
-  return command_list;
-}
-*/
-
-struct command* get_order(struct command* arr, int size){
-  int i = 0;
-  struct command temp;
-  while (i < size){ // if "< b.txt"
-    if (arr[i].type == 1){
-      temp = arr[i];
-      arr[i] = arr[i-1];
-      arr[i-1] = temp;
-    }
-    printf("\n%s",arr[i].data[0]);
-    i++;
-  }
-  return arr;
-}
-
-
-
-
-
-
-
-
-
-
-
-
 
 int push_command(struct command_stack* stack, struct command cmd) {
 	//Check if stack is full

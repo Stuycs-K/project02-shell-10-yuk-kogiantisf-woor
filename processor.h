@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define CMD_TEMPFILE ".temp"
 
 #define CMD_EXEC 0
 #define CMD_REDIN 1
@@ -44,10 +45,14 @@ struct command* get_commands(char** str);
 //Create an empty stack
 struct command_stack init_stack(int size);
 
+//Push a parsed array of strings into the command stack
+int assign_and_push_commands(struct command_stack* stack, char** str);
+
 //Turn an array
 struct command_stack array_to_stack(struct command* cmds, int n);
 
 void print_command(struct command cmd);
+
 void print_stack(struct command_stack stack);
 
 //Free memory!

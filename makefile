@@ -14,5 +14,5 @@ executor.o: executor.c executor.h
 	@gcc -c executor.c
 
 clean:
-	@rm test
 	@rm *.o
+	@rm test
