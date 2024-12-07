@@ -1,18 +1,17 @@
-run: test
-	@./test
+.PHONY: clean run compile
 
-compile test: test.o processor.o executor.o
-	@gcc -o test test.o processor.o executor.o
+run: main
+	@./main
 
-test.o: test.c
-	@gcc -c test.c
+compile main: main.o parse.o
+	@gcc -o main main.o parse.o
 
-processor.o: processor.c processor.h
-	@gcc -c processor.c
+main.o: main.c parse.h
+	@gcc -c main.c
 
-executor.o: executor.c executor.h
-	@gcc -c executor.c
+parse.o: parse.c parse.h
+	@gcc -c parse.c
 
 clean:
-	@rm *.o
-	@rm test
+	@rm *.o main
+
