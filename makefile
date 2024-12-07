@@ -14,3 +14,4 @@ parse.o: parse.c parse.h
 
 clean:
 	@rm *.o main
+
