@@ -1,0 +1,16 @@
+total 92
+-rw-rw-r-- 1 pilot pilot  2030 Dec  8 17:33 executor.c
+-rw-rw-r-- 1 pilot pilot  1203 Dec  8 17:33 executor.h
+-rw-rw-r-- 1 pilot pilot  4240 Dec  8 17:33 executor.o
+-rw-rw-r-- 1 pilot pilot  1055 Dec  8 16:58 main.c
+-rw-rw-r-- 1 pilot pilot  2624 Dec  8 17:14 main.o
+-rw-rw-r-- 1 pilot pilot   382 Dec  8 16:59 makefile
+-rw-r--r-- 1 pilot pilot     0 Dec  8 17:33 out.txt
+-rw-rw-r-- 1 pilot pilot  2880 Dec  8 16:47 parse.c
+-rw-rw-r-- 1 pilot pilot  1072 Dec  8 16:41 parse.h
+-rw-rw-r-- 1 pilot pilot  4464 Dec  8 17:14 parse.o
+-rw-rw-r-- 1 pilot pilot  3382 Dec  8 16:39 processor.c
+-rw-rw-r-- 1 pilot pilot  3282 Dec  8 16:47 processor.h
+-rw-rw-r-- 1 pilot pilot  5744 Dec  8 17:14 processor.o
+-rw-rw-r-- 1 pilot pilot  5502 Dec  8 17:13 README.md
+-rwxrwxr-x 1 pilot pilot 21904 Dec  8 17:33 shell

@@ -18,6 +18,7 @@
 #define CMD_EXIT 10
 #define CMD_ERR 11
 #define CMD_BREAK 12
+#define CMD_HELP 13
 #define CMD_NULL -1 
 
 #define COMMAND_BUFF_SIZE 64

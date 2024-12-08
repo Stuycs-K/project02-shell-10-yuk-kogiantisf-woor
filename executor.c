@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <errno.h>
 #include "processor.h"
 #include "executor.h"
 
@@ -13,7 +14,11 @@ int execute_command(struct command cmd, struct command_stack* cmd_stack, int* st
 		case CMD_EXEC:
 			pid_t p = fork();
 			if (p == 0) {
-				execvp(cmd.data[0], cmd.data);
+				int result = execvp(cmd.data[0], cmd.data);
+				if (result == -1) {
+					printf("%s : %s\n", strerror(errno), cmd.data[0]);
+					exit(1);
+				}
 				exit(0);
 			}
 			int pid_status;
@@ -36,6 +41,10 @@ int execute_command(struct command cmd, struct command_stack* cmd_stack, int* st
 			dup2(new_out, STDOUT_FILENO);
 			break;
 		case CMD_CD:
+			if (cmd.data[0] == NULL) {
+				chdir(getenv("HOME"));
+				break;
+			}
 			chdir(cmd.data[0]);
 			break;
 		case CMD_REDOUTR:
@@ -69,6 +78,9 @@ int execute_command(struct command cmd, struct command_stack* cmd_stack, int* st
 			return 0;
 			break;
 		case CMD_BREAK:
+			break;
+		case CMD_HELP:
+			printf("This shell basically is the same thing as bash... Consult the bash docs for help\n");
 			break;
 		default:
 			fprintf(stderr, "Undefined command!\n");
