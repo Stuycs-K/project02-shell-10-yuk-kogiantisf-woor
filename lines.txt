@@ -1,0 +1,5 @@
+cd ..;pwd;cd project02-shell-10-yuk-kogiantisf-woor;pwd
+echo 1;echo 2;echo 3;echo 4;echo 5;echo 6
+echo 1;ls -l > out.txt;cat out.txt
+cd ..;ls -l .. > out.txt;cat out.txt;cd project02-shell-10-yuk-kogiantisf-woor
+exit
