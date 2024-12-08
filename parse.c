@@ -35,17 +35,21 @@ struct command* parse_input(char* line, int* status) {
 	char* s_token;
 	struct command* out;
 	char* delims[] = {">", "<", "|", "&", ">>", "&&", "||", "cd", "exit"};
+	char delimc[] = "><|&";
 	int n = 0;
 	for (int i=0; i<9; i++) {
 		n += count_str_instances(line, delims[i]);
 	}
-	out = (struct command*)calloc(n+2, sizeof(struct command));
-	out[n+1].type = -1;
+	out = (struct command*)calloc(64, sizeof(struct command));
 	n = 0;
 
 	char* buff = (char*)malloc(sizeof(char)*MAX_DELIM_L);
 	int len = strlen(line);
+	printf("%s\n", line);
 	for (int i=0; i < len; ) {
+		if (line[i] == '\0') {
+			break;
+		}
 		int type = CMD_EXEC;
 		strncpy(buff, line+i, MAX_DELIM_L);
 		if ((buff[0] == '>') && (buff[1] != '>')) {
@@ -90,14 +94,16 @@ struct command* parse_input(char* line, int* status) {
 			i+=5;
 			type = CMD_EXIT;
 		}
+		free(buff);
+
 		int r=i;
-		while (!str_in_arr(buff, delims, 9)) {
+		while (strchr(delimc, line[r]) == NULL) {
 			r++;
-			strncpy(buff, line+r, MAX_DELIM_L);
 		}
 		char* dbuff = (char*)calloc(r-i+1, sizeof(char));
 		strncpy(dbuff, line+i, r-i);
 		out[n] = create_command_string(type, dbuff);
+		n++;
 		i=r;
 	}
 	return out;

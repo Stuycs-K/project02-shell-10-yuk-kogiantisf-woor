@@ -6,17 +6,17 @@
 
 #define CMD_TEMPFILE ".temp"
 
-#define CMD_EXEC 0
-#define CMD_REDIN 1
-#define CMD_REDOUT 2
-#define CMD_CD 3
-#define CMD_REDOUTR 4
-#define CMD_AND 5
-#define CMD_OR 6
-#define CMD_PIPE 7
-#define CMD_ASYNC 8
-#define CMD_EXIT 9
-#define CMD_ERR 10
+#define CMD_EXEC 1
+#define CMD_REDIN 2
+#define CMD_REDOUT 3
+#define CMD_CD 4
+#define CMD_REDOUTR 5
+#define CMD_AND 6
+#define CMD_OR 7
+#define CMD_PIPE 8
+#define CMD_ASYNC 9
+#define CMD_EXIT 10
+#define CMD_ERR 11
 
 #define COMMAND_BUFF_SIZE 64
 

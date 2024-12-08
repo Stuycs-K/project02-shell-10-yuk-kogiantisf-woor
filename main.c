@@ -33,11 +33,10 @@ int main(){
         fgets(line, INPUT_BUFFER_SIZE, stdin);
 	int status = 0;
 	struct command* out = parse_input(line, &status);
-	for (int i=0; out[i].type != -1; i++) {
+	for (int i=0; out[i].type != 0; i++) {
 		print_command(out[i]);
 	}
+    }
 	printf("\n");
-    }
-
-    }
+}
 
