@@ -62,6 +62,7 @@ int execute_command(struct command cmd, struct command_stack* cmd_stack, int* st
 			free_stack(cmd_stack);
 			dup2(out, STDOUT_FILENO);
 			dup2(in, STDIN_FILENO);
+			unlink(CMD_TEMPFILE);
 			exit(0);
 			break;
 		case CMD_ERR:
