@@ -34,25 +34,24 @@ int main(){
     while (1){
         char line[INPUT_BUFFER_SIZE];
 
-	//Print the user prompt
-	print_prompt();
+        //Print the user prompt
+        print_prompt();
 
         //read in user input
         fgets(line, INPUT_BUFFER_SIZE, stdin);
 
-	//remove newline at the end
-	if (strchr(line, '\n') != NULL){
+        //remove newline at the end
+        if (strchr(line, '\n') != NULL){
             *strchr(line, '\n') = '\0';
-	}
-	
-	//parse user input
-	parse_input(parsed_commands, line);
+        }
+        
+        //parse user input
+        parse_input(parsed_commands, line);
 
-	//feed that user input onto the stack
-	process_commands_to_stack(&stack, parsed_commands);
+        //feed that user input onto the stack
+        process_commands_to_stack(&stack, parsed_commands);
 
-	//execute commands
-	execute_command_stack(&stack);
+        //execute commands
+        execute_command_stack(&stack);
     }
 }
-

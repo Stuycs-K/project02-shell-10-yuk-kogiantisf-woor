@@ -5,6 +5,13 @@
 Group members: Ronnie Woo, Filippos Kogiantis, Kellen Yu
 
 ### Features
+- General Functionality
+	- Prompting user for input
+	- Parsing the user input and separating commands by semicolons
+	- Processing each command, forking, and then executing it
+	- Printing user prompt with the ```cwd``` path
+	- Implementing the ```cd``` and ```exit``` commands
+	- Implementing redirection and piping
 - Infinite piping
 	- Piping does use a tempfile, but you can chain together infinitely many (as much as the buffer can hold) commands with pipes. i.e: ```a | b | c | d```
 - Whitespaces not needed between special characters
@@ -195,7 +202,7 @@ int parse_input(struct command* out, char* line);
  * 	delim - the string to look for
  *
  * RETURN VALUE:
- * 	the amount of occurances of (delim) in (str)
+ * 	the amount of occurrences of (delim) in (str)
  */
 int count_str_instances(char* str, char* delim);
 
