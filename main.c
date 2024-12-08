@@ -15,6 +15,7 @@ void print_prompt() {
 	char path[PATH_BUFFER_SIZE];
 	getcwd(path, PATH_BUFFER_SIZE);
 	printf("\033[1;34m%s\033[1;0m$ ", path);
+	fflush(stdout);
 }
 
 int main(){
