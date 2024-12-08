@@ -17,6 +17,7 @@
 #define CMD_ASYNC 9
 #define CMD_EXIT 10
 #define CMD_ERR 11
+#define CMD_NULL -1 
 
 #define COMMAND_BUFF_SIZE 64
 
@@ -40,6 +41,10 @@ struct command create_command_string(int type, char* str);
 
 //Pushes a command struct to a command stack, 1 for success, 0 for stack full
 int push_command(struct command_stack* stack, struct command cmd);
+
+//Pushes an array of commands onto the stack in the correct order
+//Assumes command is an array terminated by a CMD_NULL type 
+int process_commands_to_stack(struct command_stack* stack, struct command* cmds);
 
 //Pops command from the command stack, returns NULL ptr if stack is empty
 struct command* pop_command(struct command_stack* stack);

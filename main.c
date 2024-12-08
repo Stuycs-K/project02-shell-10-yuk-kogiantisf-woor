@@ -6,8 +6,10 @@
 #include "processor.h"
 #include "executor.h"
 
-#define INPUT_BUFFER_SIZE 200
+#define INPUT_BUFFER_SIZE 1024 
 #define PATH_BUFFER_SIZE 256
+
+#define STACK_SIZE 256
 
 void print_prompt() {
 	char path[PATH_BUFFER_SIZE];
@@ -17,26 +19,32 @@ void print_prompt() {
 
 int main(){
     //main loop
-    while (1){
-        char line[INPUT_BUFFER_SIZE * 10];
-        char** parsedcmd[INPUT_BUFFER_SIZE];
+    struct command_stack stack = init_stack(STACK_SIZE);
+    struct command parsed_commands[STACK_SIZE];
 
-	//Allocate memory for the parsed commands
-        for (int i=0; i < INPUT_BUFFER_SIZE; i++){
-		parsedcmd[i] = malloc(INPUT_BUFFER_SIZE * sizeof(char *));
-        }
+    while (1){
+        char line[INPUT_BUFFER_SIZE];
 
 	//Print the user prompt
 	print_prompt();
 
         //read in user input
         fgets(line, INPUT_BUFFER_SIZE, stdin);
-	int status = 0;
-	struct command* out = parse_input(line, &status);
-	for (int i=0; out[i].type != 0; i++) {
-		print_command(out[i]);
+
+	//remove newline at the end
+	if (strchr(line, '\n') != NULL){
+            *strchr(line, '\n') = '\0';
 	}
+	
+	//parse user input
+	parse_input(parsed_commands, line);
+
+	//feed that user input onto the stack
+	process_commands_to_stack(&stack, parsed_commands);
+	print_stack(stack);
+
+	//execute commands
+	execute_command_stack(&stack);
     }
-	printf("\n");
 }
 

@@ -1,12 +1,18 @@
-total 72
--rw-rw-r-- 1 pilot pilot  1212 Dec  6 00:10 executor.c
--rw-rw-r-- 1 pilot pilot   221 Dec  5 23:48 executor.h
--rw-rw-r-- 1 pilot pilot  3376 Dec  6 00:13 executor.o
--rw-rw-r-- 1 pilot pilot   281 Dec  5 23:48 makefile
--rw-rw-r-- 1 pilot pilot  4472 Dec  5 23:48 processor.c
--rw-rw-r-- 1 pilot pilot  1456 Dec  5 23:48 processor.h
--rw-rw-r-- 1 pilot pilot  6896 Dec  6 00:13 processor.o
+total 96
+-rw-rw-r-- 1 pilot pilot  1898 Dec  8 14:59 executor.c
+-rw-rw-r-- 1 pilot pilot   354 Dec  8 14:59 executor.h
+-rw-rw-r-- 1 pilot pilot  4016 Dec  8 14:59 executor.o
+-rw-rw-r-- 1 pilot pilot   151 Dec  8 14:24 in.txt
+-rwxrwxr-x 1 pilot pilot 21816 Dec  8 15:49 main
+-rw-rw-r-- 1 pilot pilot  1059 Dec  8 15:20 main.c
+-rw-rw-r-- 1 pilot pilot  2576 Dec  8 15:20 main.o
+-rw-rw-r-- 1 pilot pilot   379 Dec  8 00:24 makefile
+-rw-rw-r-- 1 pilot pilot     6 Dec  8 14:18 out.txt
+-rw-rw-r-- 1 pilot pilot  2796 Dec  8 15:44 parse.c
+-rw-rw-r-- 1 pilot pilot   276 Dec  8 14:52 parse.h
+-rw-rw-r-- 1 pilot pilot  4440 Dec  8 15:44 parse.o
+-rw-rw-r-- 1 pilot pilot  3542 Dec  8 15:48 processor.c
+-rw-rw-r-- 1 pilot pilot  1759 Dec  8 14:03 processor.h
+-rw-rw-r-- 1 pilot pilot  6112 Dec  8 15:49 processor.o
 -rw-rw-r-- 1 pilot pilot   231 Dec  4 23:03 README.md
--rwxrwxr-x 1 pilot pilot 21472 Dec  6 00:15 test
--rw-rw-r-- 1 pilot pilot   448 Dec  6 00:14 test.c
--rw-rw-r-- 1 pilot pilot  2488 Dec  6 00:15 test.o
+-rw-rw-r-- 1 pilot pilot   448 Dec  8 14:01 test.c

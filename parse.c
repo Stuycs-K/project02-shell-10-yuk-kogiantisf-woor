@@ -34,21 +34,13 @@ int str_in_arr(char* str, char** arr, int n) {
 	return 0;
 }
 
-struct command* parse_input(char* line, int* status) {
+int parse_input(struct command* out, char* line) {
 	char* s_token;
-	struct command* out;
-	char* delims[] = {">", "<", "|", "&", ">>", "&&", "||", "cd", "exit", ";"};
+	//char* delims[] = {">", "<", "|", "&", ">>", "&&", "||", "cd", "exit", ";"};
 	char delimc[] = "><|&;";
 	int n = 0;
-	for (int i=0; i<10; i++) {
-		n += count_str_instances(line, delims[i]);
-	}
-	out = (struct command*)calloc(64, sizeof(struct command));
-	n = 0;
-
 	char* buff = (char*)malloc(sizeof(char)*MAX_DELIM_L);
 	int len = strlen(line);
-	printf("%s\n", line);
 	for (int i=0; i < len; ) {
 		if (line[i] == '\0') {
 			break;
@@ -70,29 +62,30 @@ struct command* parse_input(char* line, int* status) {
 		else if ((buff[0] == '|') && (buff[1] != '|')) {
 			i++;
 			type = CMD_PIPE;
-			out[n] = create_command_string(type, "");
+			out[n] = create_command_string(type, "PIPE");
 			n++;
 			continue;
 		}
 		else if ((buff[0] == '|') && (buff[1] == '|')) {
 			i+=2;
 			type = CMD_OR;
-			out[n] = create_command_string(type, "");
+			out[n] = create_command_string(type, "OR");
 			n++;
 			continue;
 		}
 		else if ((buff[0] == '&') && (buff[1] != '&')) {
 			i++;
 			type = CMD_ASYNC;
-			out[n] = create_command_string(type, "");
+			out[n] = create_command_string(type, "ASYNC");
 			n++;
 			continue;
 		}
 		else if ((buff[0] == '&') && (buff[1] == '&')) {
 			i+=2;
 			type = CMD_AND;
-			out[n] = create_command_string(type, "");
+			out[n] = create_command_string(type, "AND");
 			n++;
+			continue;
 		}
 		else if ((buff[0] == 'c') && (buff[1] == 'd') && ((buff[2] == '\0') || (buff[2] == ' '))) {
 			i+=3;
@@ -111,6 +104,11 @@ struct command* parse_input(char* line, int* status) {
 			) {
 			i+=5;
 			type = CMD_EXIT;
+			out[n] = create_command_string(type, "EXIT");
+			n++;
+			continue;
+
+
 		}
 		free(buff);
 
@@ -120,9 +118,11 @@ struct command* parse_input(char* line, int* status) {
 		}
 		char* dbuff = (char*)calloc(r-i+1, sizeof(char));
 		strncpy(dbuff, line+i, r-i);
+		printf("dbuff: \"%s\"\n", dbuff);
 		out[n] = create_command_string(type, dbuff);
 		n++;
 		i=r;
 	}
-	return out;
+	out[n].type = CMD_NULL;
+	return 1;
 }

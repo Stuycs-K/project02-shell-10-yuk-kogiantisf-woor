@@ -3,6 +3,26 @@
 #include <string.h>
 #include "processor.h"
 
+int process_commands_to_stack(struct command_stack* stack, struct command* cmds) {
+	int n = 0;
+	int status = 1;
+	//Find out how big our array is
+	for (; cmds[n].type != CMD_NULL; n++);
+	//Now go backwards, until a pipe is found then go forwards
+	for (int i=n-1; i>=0; i--) {
+		if ((cmds[i].type == CMD_PIPE) || (i == 0)) {
+			if (i == 0) status = push_command(stack, cmds[i]);
+			int y = i+1;
+			for (; y<n; y++)  {
+				status = push_command(stack, cmds[y]);
+				if (cmds[y].type == CMD_PIPE) break;
+			}
+
+		}
+	}
+	return status;
+}
+
 int push_command(struct command_stack* stack, struct command cmd) {
 	//Check if stack is full
 	if (stack->sp + 1 >= stack->stack_size) {
@@ -70,7 +90,18 @@ struct command create_command_string(int type, char* str) {
 	char* str_m = (char*)malloc(sizeof(char)*strlen(str));
 	strcpy(str_m, str);
 	char** data = (char**)malloc(sizeof(char*)*COMMAND_BUFF_SIZE);
-	for (int i=0; (i<COMMAND_BUFF_SIZE) && (data[i] = strsep(&str_m, " ")); i++);
+	//Trim off front whitespace
+	for (; *(str_m) == ' '; str_m++);
+	for (int i=0; i<COMMAND_BUFF_SIZE; i++) {
+		char* buff = strsep(&str_m, " ");
+		if (buff == NULL) {
+			break;
+		}
+		if (strcmp(buff, "") == 0) {
+			continue;
+		}
+		data[i] = buff;
+	}
 	out = create_command(type, data);
 	free(str_m);
 	return out;
@@ -95,7 +126,7 @@ struct command_stack array_to_stack(struct command* cmds, int n) {
 void print_command(struct command cmd) {
 	printf("[%d]: ", cmd.type);
 	for (int i=0; cmd.data[i] != NULL; i++) {
-		printf("%s ", cmd.data[i]);
+		printf("\"%s\" ", cmd.data[i]);
 	}
 	printf("\n");
 }
