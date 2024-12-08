@@ -1,0 +1,5 @@
+cowsay herro mf > out.txt
+cat out.txt > out2.txt
+cowsay < out2.txt
+rm out.txt
+rm out2.txt
