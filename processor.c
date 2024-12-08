@@ -10,12 +10,12 @@ int process_commands_to_stack(struct command_stack* stack, struct command* cmds)
 	for (; cmds[n].type != CMD_NULL; n++);
 	//Now go backwards, until a pipe is found then go forwards
 	for (int i=n-1; i>=0; i--) {
-		if ((cmds[i].type == CMD_PIPE) || (i == 0)) {
+		if ((cmds[i].type == CMD_BREAK) || (cmds[i].type == CMD_PIPE) || (i == 0)) {
 			if (i == 0) status = push_command(stack, cmds[i]);
 			int y = i+1;
 			for (; y<n; y++)  {
 				status = push_command(stack, cmds[y]);
-				if (cmds[y].type == CMD_PIPE) break;
+				if ((cmds[y].type == CMD_PIPE) || (cmds[y].type == CMD_BREAK)) break;
 			}
 
 		}

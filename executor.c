@@ -31,6 +31,7 @@ int execute_command(struct command cmd, struct command_stack* cmd_stack, int* st
 			dup2(new_in, STDIN_FILENO);
 			break;
 		case CMD_REDOUT:
+			unlink(cmd.data[0]);
 			new_out = open(cmd.data[0], O_WRONLY | O_CREAT, 0644);
 			dup2(new_out, STDOUT_FILENO);
 			break;
@@ -48,6 +49,8 @@ int execute_command(struct command cmd, struct command_stack* cmd_stack, int* st
 			status[AND_ACTIVE] = 1;
 			break;
 		case CMD_PIPE:
+			//In case the file exists:
+			unlink(CMD_TEMPFILE);
 			new_out = open(CMD_TEMPFILE, O_WRONLY | O_CREAT, 0644);
 			dup2(new_out, STDOUT_FILENO);
 			status[PIPE_ACTIVE] = 1;
@@ -63,6 +66,8 @@ int execute_command(struct command cmd, struct command_stack* cmd_stack, int* st
 			break;
 		case CMD_ERR:
 			return 0;
+			break;
+		case CMD_BREAK:
 			break;
 		default:
 			fprintf(stderr, "Undefined command!\n");

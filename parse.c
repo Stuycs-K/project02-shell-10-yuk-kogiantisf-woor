@@ -93,6 +93,9 @@ int parse_input(struct command* out, char* line) {
 		}
 		else if (buff[0] == ';') {
 			i++;
+			type = CMD_BREAK;
+			out[n] = create_command_string(type, "BREAK");
+			n++;
 			continue;
 		}
 		else if (
@@ -118,7 +121,7 @@ int parse_input(struct command* out, char* line) {
 		}
 		char* dbuff = (char*)calloc(r-i+1, sizeof(char));
 		strncpy(dbuff, line+i, r-i);
-		printf("dbuff: \"%s\"\n", dbuff);
+		//printf("dbuff: \"%s\"\n", dbuff);
 		out[n] = create_command_string(type, dbuff);
 		n++;
 		i=r;

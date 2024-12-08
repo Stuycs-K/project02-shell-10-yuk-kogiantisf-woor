@@ -41,7 +41,6 @@ int main(){
 
 	//feed that user input onto the stack
 	process_commands_to_stack(&stack, parsed_commands);
-	print_stack(stack);
 
 	//execute commands
 	execute_command_stack(&stack);

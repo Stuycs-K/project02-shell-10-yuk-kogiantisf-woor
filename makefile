@@ -1,12 +1,12 @@
 .PHONY: clean run compile
 
-run: main
-	@./main
+run: shell 
+	@./shell
 
-compile main: main.o parse.o processor.o executor.o parse.o
-	@gcc -o main main.o parse.o processor.o executor.o
+compile shell: main.o parse.o processor.o executor.o parse.o
+	@gcc -o shell main.o parse.o processor.o executor.o
 
-main.o: main.c parse.h
+main.o: main.c
 	@gcc -c main.c
 
 parse.o: parse.c parse.h
@@ -19,5 +19,6 @@ executor.o: executor.c executor.h
 	@gcc -c executor.c
 
 clean:
-	@rm *.o main
+	@rm shell
+	@rm *.o
 
