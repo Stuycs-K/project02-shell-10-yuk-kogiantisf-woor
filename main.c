@@ -13,8 +13,14 @@
 
 void print_prompt() {
 	char path[PATH_BUFFER_SIZE];
+	char* home = getenv("HOME");
 	getcwd(path, PATH_BUFFER_SIZE);
-	printf("\033[1;34m%s\033[1;0m$ ", path);
+	printf("\033[33m");
+	if (strncmp(path, home, strlen(home)) == 0) {
+		strcpy(path, path+strlen(home));
+		printf("~");
+	}
+	printf("%s\033[1;0m> ", path);
 	fflush(stdout);
 }
 
@@ -22,6 +28,8 @@ int main(){
     //main loop
     struct command_stack stack = init_stack(STACK_SIZE);
     struct command parsed_commands[STACK_SIZE];
+    printf("Welcome to \033[33mPEE\033[1;0m (Practical Execution Environment) Shell!\n");
+    printf("Type \033[33mhelp\033[1;0m in the prompt if you need help!\n");
 
     while (1){
         char line[INPUT_BUFFER_SIZE];

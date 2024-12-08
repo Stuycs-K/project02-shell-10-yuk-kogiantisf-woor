@@ -113,6 +113,21 @@ int parse_input(struct command* out, char* line) {
 
 
 		}
+		else if (
+				(buff[0] == 'h') && 
+				(buff[1] == 'e') && 
+				(buff[2] == 'l') &&
+				(buff[3] == 'p') &&
+				((buff[4] == '\0') || (buff[4] == ' '))
+			) {
+			i+=5;
+			type = CMD_HELP;
+			out[n] = create_command_string(type, "HELP");
+			n++;
+			continue;
+
+
+		}
 		free(buff);
 
 		int r=i;

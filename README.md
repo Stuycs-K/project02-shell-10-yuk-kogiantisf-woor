@@ -16,8 +16,10 @@ Group members: Ronnie Woo, Filippos Kogiantis, Kellen Yu
 	- Piping does use a tempfile, but you can chain together infinitely many (as much as the buffer can hold) commands with pipes. i.e: ```a | b | c | d```
 - Whitespaces not needed between special characters
 	- ```a|b, a>b, a<b``` are valid
-- Quotations (sometimes)
-	- ```a > "b amongus.txt", etc``` works
+- Error handling on commands that do not exist
+	- If a command doesnt exist, the shell will tell you
+- cd (followed by nothing) results in changing the current directory to home
+- tilde abbreviation for $HOME
 
 ### Unimplemented but attemped
 - ```&&, ||, and &``` commands
