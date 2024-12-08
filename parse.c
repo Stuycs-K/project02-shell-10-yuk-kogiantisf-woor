@@ -5,6 +5,9 @@
 #include "processor.h"
 
 int count_str_instances(char* str, char* delim) {
+	if (strlen(str) < strlen(delim)) {
+		return 0;
+	}
 	int count = 0;
 	int delim_l = strlen(delim);
 	char* str_p = str;
@@ -34,10 +37,10 @@ int str_in_arr(char* str, char** arr, int n) {
 struct command* parse_input(char* line, int* status) {
 	char* s_token;
 	struct command* out;
-	char* delims[] = {">", "<", "|", "&", ">>", "&&", "||", "cd", "exit"};
-	char delimc[] = "><|&";
+	char* delims[] = {">", "<", "|", "&", ">>", "&&", "||", "cd", "exit", ";"};
+	char delimc[] = "><|&;";
 	int n = 0;
-	for (int i=0; i<9; i++) {
+	for (int i=0; i<10; i++) {
 		n += count_str_instances(line, delims[i]);
 	}
 	out = (struct command*)calloc(64, sizeof(struct command));
@@ -67,22 +70,37 @@ struct command* parse_input(char* line, int* status) {
 		else if ((buff[0] == '|') && (buff[1] != '|')) {
 			i++;
 			type = CMD_PIPE;
+			out[n] = create_command_string(type, "");
+			n++;
+			continue;
 		}
 		else if ((buff[0] == '|') && (buff[1] == '|')) {
 			i+=2;
 			type = CMD_OR;
+			out[n] = create_command_string(type, "");
+			n++;
+			continue;
 		}
 		else if ((buff[0] == '&') && (buff[1] != '&')) {
 			i++;
 			type = CMD_ASYNC;
+			out[n] = create_command_string(type, "");
+			n++;
+			continue;
 		}
 		else if ((buff[0] == '&') && (buff[1] == '&')) {
 			i+=2;
 			type = CMD_AND;
+			out[n] = create_command_string(type, "");
+			n++;
 		}
 		else if ((buff[0] == 'c') && (buff[1] == 'd') && ((buff[2] == '\0') || (buff[2] == ' '))) {
 			i+=3;
 			type = CMD_CD;
+		}
+		else if (buff[0] == ';') {
+			i++;
+			continue;
 		}
 		else if (
 				(buff[0] == 'e') && 
