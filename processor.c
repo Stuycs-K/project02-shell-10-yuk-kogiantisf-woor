@@ -115,14 +115,6 @@ struct command_stack init_stack(int size) {
 	return out;
 }
 
-struct command_stack array_to_stack(struct command* cmds, int n) {
-	struct command_stack out = init_stack(n*4);
-	for (int i=0; i<n; i++) {
-		push_command(&out, cmds[i]);
-	}
-	return out;
-}
-
 void print_command(struct command cmd) {
 	printf("[%d]: ", cmd.type);
 	for (int i=0; cmd.data[i] != NULL; i++) {
