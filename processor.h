@@ -10,8 +10,13 @@
 #define CMD_REDIN 1
 #define CMD_REDOUT 2
 #define CMD_CD 3
-#define CMD_EXIT 4
-#define CMD_ERR 5
+#define CMD_REDOUTR 4
+#define CMD_AND 5
+#define CMD_OR 6
+#define CMD_PIPE 7
+#define CMD_ASYNC 8
+#define CMD_EXIT 9
+#define CMD_ERR 10
 
 #define COMMAND_BUFF_SIZE 64
 
@@ -57,7 +62,5 @@ void print_stack(struct command_stack stack);
 
 //Free memory!
 void free_stack(struct command_stack* stack);
-
-
 
 #endif

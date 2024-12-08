@@ -3,37 +3,6 @@
 #include <string.h>
 #include "processor.h"
 
-int assign_and_push_commands(struct command_stack* stack, char*** str, int n) {
-	for (int i=n; i >= 0; i--) {
-		//Go back until a pipe is reached
-		//if pipe found or end eached, stop
-		if ((strcmp(str[i][0], "|") == 0) || (i == 0)) {
-			if (i > 0) {
-				push_command(stack, create_command_string(CMD_REDIN, CMD_TEMPFILE);
-			}
-			for (int y=i+1; strcmp(str[y][0][0], "|") && (y<n); y++) {
-				if (strcmp(str[y][0], "<") == 0) {
-					push_command(stack, create_command(CMD_REDIN, str[y]));
-					continue;
-				}
-				if (strcmp(str[y][0], ">") == 0) {
-					push_command(stack, create_command(CMD_REDOUT, str[y]));
-					continue;
-				}
-				if (strcmp(str[y][0], "cd") == 0) {
-					push_command(stack, create_command(CMD_CD, str[i]));
-					continue;
-				}
-				push_command(stack, create_command(CMD_EXEC, str[y]));
-			}
-			if (i > 0) {
-				push_command(stack, create_command_string(CMD_REDOUT, CMD_TEMPFILE));
-			}
-		}
-	}
-	return 1;
-}
-
 int push_command(struct command_stack* stack, struct command cmd) {
 	//Check if stack is full
 	if (stack->sp + 1 >= stack->stack_size) {
