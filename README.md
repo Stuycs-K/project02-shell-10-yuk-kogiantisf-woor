@@ -18,6 +18,7 @@ Group members: Ronnie Woo, Filippos Kogiantis, Kellen Yu
 	- ```a|b, a>b, a<b``` are valid
 - Error handling on commands that do not exist
 	- If a command doesnt exist, the shell will tell you
+- `>>` redirect type implemented
 - cd (followed by nothing) results in changing the current directory to home
 - tilde abbreviation for $HOME
 
