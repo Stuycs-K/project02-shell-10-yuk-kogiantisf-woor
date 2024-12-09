@@ -16,7 +16,7 @@ int execute_command(struct command cmd, struct command_stack* cmd_stack, int* st
 			if (p == 0) {
 				int result = execvp(cmd.data[0], cmd.data);
 				if (result == -1) {
-					printf("%s : %s\n", strerror(errno), cmd.data[0]);
+					printf("%s : |%s| \n", strerror(errno), cmd.data[0]);
 					exit(1);
 				}
 				exit(0);
